@@ -4,14 +4,12 @@ class ReviewItemWidget extends StatelessWidget {
   final int rating;
   final String text;
   final VoidCallback onDelete;
-
   const ReviewItemWidget({
     super.key,
     required this.rating,
     required this.text,
     required this.onDelete,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(
