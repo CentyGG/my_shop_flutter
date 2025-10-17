@@ -7,14 +7,12 @@ class ProductCard extends StatelessWidget {
   final Product product;
   final bool isInCart;
   final VoidCallback onToggle;
-
   const ProductCard({
     super.key,
     required this.product,
     required this.isInCart,
     required this.onToggle,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(
