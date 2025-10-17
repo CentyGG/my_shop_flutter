@@ -1,23 +1,12 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'features/cart/providers/cart_provider.dart';
-import 'features/order_history/providers/order_provider.dart';
-import 'features/product_selection/screens/product_list_screen.dart';
-import 'features/cart/screens/cart_screen.dart';
-import 'features/order_history/screens/order_history_screen.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (_) => OrderProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
-}
+import 'features/models/product.dart';
+import 'features/cart/screens/cart_screen.dart';
+import 'features/product_list/screens/product_list_screen.dart';
+import 'features/reviews/screens/reviews_screen.dart';
+
+
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,15 +14,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Магазин продуктов',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const HomeMenuScreen(),
+      title: 'Магазин',
+      theme: ThemeData(useMaterial3: true),
+      home: const MainScreen(),
     );
   }
 }
 
-class HomeMenuScreen extends StatelessWidget {
-  const HomeMenuScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  List<Product> _cart = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +45,12 @@ class HomeMenuScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) =>  ProductListScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => ProductListScreen(
+                        cart: _cart,
+                        onCartUpdate: (updatedCart) => setState(() => _cart = updatedCart),
+                      ),
+                    ),
                   );
                 },
                 child: const Text('Выбор продуктов', style: TextStyle(fontSize: 18)),
@@ -60,7 +61,12 @@ class HomeMenuScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) =>  CartScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => CartScreen(
+                        cart: _cart,
+                        onCartUpdate: (updatedCart) => setState(() => _cart = updatedCart),
+                      ),
+                    ),
                   );
                 },
                 child: const Text('Корзина', style: TextStyle(fontSize: 18)),
@@ -71,10 +77,10 @@ class HomeMenuScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) =>  OrderHistoryScreen()),
+                    MaterialPageRoute(builder: (_) => const ReviewScreen()),
                   );
                 },
-                child: const Text('История заказов', style: TextStyle(fontSize: 18)),
+                child: const Text('Отзыв', style: TextStyle(fontSize: 18)),
 
               ),
             ],
