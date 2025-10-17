@@ -41,18 +41,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
         title: const Text('Отзывы'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+          onPressed: () => Navigator.pop(context),),),
       body: Column(
         children: [
-          // Поле ввода отзыва
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Ваш отзыв',
+            padding: const EdgeInsets.all(16.0), child: TextField(
+            decoration: const InputDecoration(labelText: 'Ваш отзыв',
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
@@ -60,41 +54,78 @@ class _ReviewScreenState extends State<ReviewScreen> {
               },
             ),
           ),
-
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text('Оцените магазин:'),
           ),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: List.generate(5, (i) {
-              final rating = i + 1;
-              return ElevatedButton(
+          //Здесь 5 кнопок для отзывов
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == rating ? Colors.blue : null,
+                  backgroundColor: _selectedRating == 1 ? Colors.blue : null,
                 ),
                 onPressed: () {
                   setState(() {
-                    _selectedRating = rating;
+                    _selectedRating = 1;
                   });
                 },
-                child: Text('$rating'),
-              );
-            }),
+                child: const Text('1'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _selectedRating == 2 ? Colors.blue : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _selectedRating = 2;
+                  });
+                },
+                child: const Text('2'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _selectedRating == 3 ? Colors.blue : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _selectedRating = 3;
+                  });
+                },
+                child: const Text('3'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _selectedRating == 4 ? Colors.blue : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _selectedRating = 4;
+                  });
+                },
+                child: const Text('4'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _selectedRating == 5 ? Colors.blue : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _selectedRating = 5;
+                  });
+                },
+                child: const Text('5'),
+              ),
+            ],
           ),
-
           const SizedBox(height: 16),
-
-          // Кнопка отправки
           ElevatedButton(
             onPressed: _submitReview,
             child: const Text('Отправить отзыв'),
           ),
-
           const Divider(),
-
-
+          //Здесь то, что показывается если нет отзывов
           Expanded(
             child: _reviews.isEmpty
                 ? const Center(child: Text('Нет отзывов'))
