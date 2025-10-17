@@ -22,27 +22,17 @@ class CartItemWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            Text(product.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             const SizedBox(height: 4),
             Text(product.description, style: const TextStyle(color: Colors.grey)),
-            const SizedBox(height: 12),
-            Row(
+            const SizedBox(height: 12), Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${product.price.toStringAsFixed(2)} ₽'),
-                Row(
+                Text('${product.price.toStringAsFixed(2)} ₽'), Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: onDecrement,
-                    ),
-                    Text(
-                      '$quantity',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  children: [IconButton(
+                    icon: const Icon(Icons.remove), onPressed: onDecrement,),
+                    Text('$quantity', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
                       icon: const Icon(Icons.add),
