@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
 import '../../models/product.dart';
 import '../widgets/product_card.dart';
-
-
 class ProductListScreen extends StatefulWidget {
   final List<Product> cart;
   final void Function(List<Product>) onCartUpdate;
-
   const ProductListScreen({
     super.key,
     required this.cart,
     required this.onCartUpdate,
   });
-
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
-
 class _ProductListScreenState extends State<ProductListScreen> {
   late List<Product> _cart;
-
   @override
   void initState() {
     super.initState();
     _cart = List.from(widget.cart);
   }
-
   List<Product> _getProducts() {
     return [
       Product(id: '1', name: 'Яблоки', description: 'Свежие красные яблоки', price: 150.0),
@@ -35,7 +28,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
       Product(id: '5', name: 'Шоколад', description: 'Тёмный шоколад 70%', price: 120.0),
     ];
   }
-
   bool _isInCart(String productId) {
     return _cart.any((p) => p.id == productId);
   }
