@@ -7,7 +7,6 @@ import '../widgets/product_card.dart';
 import '../widgets/quantity_picker_modal.dart';
 
 class ProductListScreen extends StatelessWidget {
-  // Пример продуктов (можно заменить на API или базу данных)
   static List<Product> getProducts() {
     return [
       Product(id: '1',
@@ -16,26 +15,24 @@ class ProductListScreen extends StatelessWidget {
           price: 150.0),
       Product(id: '2',
           name: 'Молоко',
-          description: 'Цельное молоко 3.2%',
+          description: 'Цельное молоко',
           price: 85.0),
       Product(
           id: '3', name: 'Хлеб', description: 'Бородинский хлеб', price: 45.0),
       Product(id: '4',
           name: 'Курица',
           description: 'Филе куриной грудки',
-          price: 250.0),
+          price: 750.0),
       Product(id: '5',
           name: 'Шоколад',
-          description: 'Тёмный шоколад 70%',
+          description: 'Тёмный шоколад',
           price: 120.0),
     ];
   }
-
   @override
   Widget build(BuildContext context) {
     final products = getProducts();
     final cartProvider = Provider.of<CartProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
           title: const Text('Выбор продуктов'),
@@ -58,7 +55,6 @@ class ProductListScreen extends StatelessWidget {
       ),
     );
   }
-
   void _showQuantitySelector(BuildContext context, Product product,
       CartProvider cartProvider) {
     showModalBottomSheet(
