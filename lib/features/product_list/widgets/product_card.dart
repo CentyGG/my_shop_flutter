@@ -8,7 +8,6 @@ class ProductCard extends StatelessWidget {
   final bool isInCart;
   final String imageUrl;
   final VoidCallback onToggle;
-
   const ProductCard({
     super.key,
     required this.product,
