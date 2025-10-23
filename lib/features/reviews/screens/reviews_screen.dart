@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/review_item_widget.dart';
 
 class Review {
@@ -41,12 +41,35 @@ class _ReviewScreenState extends State<ReviewScreen> {
         title: const Text('Отзывы'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),),),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0), child: TextField(
-            decoration: const InputDecoration(labelText: 'Ваш отзыв',
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+            child: SizedBox(
+              height: 100,
+              child: CachedNetworkImage(
+                imageUrl: 'https://static.tildacdn.com/tild6532-3436-4763-b661-306534623030/94-945346_cutting-th.png',
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+                ),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Ваш отзыв',
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
@@ -54,11 +77,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
               },
             ),
           ),
+
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text('Оцените магазин:'),
           ),
-          //Здесь 5 кнопок для отзывов
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -125,7 +148,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
             child: const Text('Отправить отзыв'),
           ),
           const Divider(),
-          //Здесь то, что показывается если нет отзывов
           Expanded(
             child: _reviews.isEmpty
                 ? const Center(child: Text('Нет отзывов'))
