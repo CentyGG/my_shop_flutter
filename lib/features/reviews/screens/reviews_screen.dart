@@ -1,41 +1,24 @@
+// lib/features/reviews/screens/review_screen.dart
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/review_item_widget.dart';
+import 'add_review_screen.dart';
 
 class Review {
   final int rating;
   final String text;
-
-  Review({required this.rating, required this.text});
+  const Review({required this.rating, required this.text});
 }
 
-class ReviewScreen extends StatefulWidget {
+class ReviewScreen extends StatelessWidget {
   const ReviewScreen({super.key});
 
   @override
-  State<ReviewScreen> createState() => _ReviewScreenState();
-}
-
-class _ReviewScreenState extends State<ReviewScreen> {
-  String _reviewText = '';
-  int? _selectedRating;
-  final List<Review> _reviews = [];
-
-  void _submitReview() {
-    if (_selectedRating != null && _reviewText.isNotEmpty) {
-      setState(() {
-        _reviews.add(Review(rating: _selectedRating!, text: _reviewText));
-        _reviewText = '';
-        _selectedRating = null;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Отзыв отправлен!')));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Заполните все поля')));
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final initialReviews = [
+      Review(rating: 5, text: 'Хороший сервис!'),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Отзывы'),
@@ -52,117 +35,33 @@ class _ReviewScreenState extends State<ReviewScreen> {
               height: 100,
               child: CachedNetworkImage(
                 imageUrl: 'https://static.tildacdn.com/tild6532-3436-4763-b661-306534623030/94-945346_cutting-th.png',
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                ),
                 fit: BoxFit.contain,
+                progressIndicatorBuilder: (context, url, progress) =>
+                const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
               ),
             ),
           ),
-
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Ваш отзыв',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                _reviewText = value;
-              },
-            ),
-          ),
-
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text('Оцените магазин:'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == 1 ? Colors.blue : null,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = 1;
-                  });
-                },
-                child: const Text('1'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == 2 ? Colors.blue : null,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = 2;
-                  });
-                },
-                child: const Text('2'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == 3 ? Colors.blue : null,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = 3;
-                  });
-                },
-                child: const Text('3'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == 4 ? Colors.blue : null,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = 4;
-                  });
-                },
-                child: const Text('4'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _selectedRating == 5 ? Colors.blue : null,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedRating = 5;
-                  });
-                },
-                child: const Text('5'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: _submitReview,
-            child: const Text('Отправить отзыв'),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const AddReviewScreen()),
+              );
+            },
+            child: const Text('Добавить отзыв'),
           ),
           const Divider(),
           Expanded(
-            child: _reviews.isEmpty
-                ? const Center(child: Text('Нет отзывов'))
-                : ListView.builder(
-              itemCount: _reviews.length,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              itemCount: initialReviews.length,
               itemBuilder: (context, index) {
-                final r = _reviews[index];
+                final r = initialReviews[index];
                 return ReviewItemWidget(
                   rating: r.rating,
                   text: r.text,
-                  onDelete: () {
-                    setState(() {
-                      _reviews.removeAt(index);
-                    });
-                  },
+                  onDelete: () {},
                 );
               },
             ),
