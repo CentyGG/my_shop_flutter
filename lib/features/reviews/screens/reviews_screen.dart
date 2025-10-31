@@ -1,6 +1,7 @@
 // lib/features/reviews/screens/review_screen.dart
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/review_item_widget.dart';
 import 'add_review_screen.dart';
 
@@ -17,7 +18,7 @@ class ReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final initialReviews = [
       Review(rating: 5, text: 'Хороший сервис!'),
-      Review(rating: 4, text: 'Нормально')
+      Review(rating: 5, text: 'Мне нравится!'),
     ];
 
     return Scaffold(
@@ -25,7 +26,7 @@ class ReviewScreen extends StatelessWidget {
         title: const Text('Отзывы'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: Column(
@@ -45,10 +46,7 @@ class ReviewScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const AddReviewScreen()),
-              );
+              context.pushReplacementNamed("add_review");
             },
             child: const Text('Добавить отзыв'),
           ),

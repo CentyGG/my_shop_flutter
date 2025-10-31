@@ -1,5 +1,6 @@
 // lib/features/reviews/screens/add_review_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_flutter/features/reviews/screens/reviews_screen.dart';
 
 class AddReviewScreen extends StatefulWidget {
@@ -85,10 +86,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ReviewScreen()),
-                );
+                context.pushReplacementNamed("reviews");
               },
               child: const Text('Отправить отзыв'),
             ),
