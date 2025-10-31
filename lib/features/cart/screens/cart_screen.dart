@@ -1,5 +1,6 @@
 // lib/features/cart/screens/cart_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/product.dart';
 import '../widgets/cart_item_widget.dart';
 
@@ -48,7 +49,7 @@ class CartScreen extends StatelessWidget {
         title: const Text('Корзина'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: items.isEmpty

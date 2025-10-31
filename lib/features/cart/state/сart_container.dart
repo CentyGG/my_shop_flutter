@@ -1,5 +1,6 @@
 // lib/features/cart/state/cart_container.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/product.dart';
 import '../screens/cart_screen.dart';
 import '../screens/order_history_screen.dart';
@@ -32,10 +33,7 @@ class _CartContainerState extends State<CartContainer> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Заказ оформлен!')));
   }
   void _openOrderHistory() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => OrderHistoryScreen(orders: List.from(_orderHistory))),
-    );
+    context.pushNamed("order_history",extra:List.from(_orderHistory));
   }
 
   void _updateCart(List<Product> updatedCart) {

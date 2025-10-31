@@ -1,5 +1,6 @@
 // lib/features/product_list/screens/product_list_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/product.dart';
 import '../widgets/product_card.dart';
 
@@ -74,7 +75,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             widget.onCartUpdate(_cart);
-            Navigator.pop(context);
+            context.pop(_cart);
           },
         ),
       ),
