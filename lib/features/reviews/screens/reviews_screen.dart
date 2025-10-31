@@ -17,6 +17,7 @@ class ReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final initialReviews = [
       Review(rating: 5, text: 'Хороший сервис!'),
+      Review(rating: 4, text: 'Нормально')
     ];
 
     return Scaffold(
