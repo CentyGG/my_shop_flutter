@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_flutter/features/reviews/screens/reviews_screen.dart';
 
+import 'features/app_info/screens/app_info_screen.dart';
+import 'features/cart/state/сart_container.dart';
 import 'features/models/product.dart';
-import 'features/cart/screens/cart_screen.dart';
+
 import 'features/product_list/screens/product_list_screen.dart';
-import 'features/reviews/screens/reviews_screen.dart';
+
 
 
 void main() => runApp(const MyApp());
@@ -46,15 +49,17 @@ class _MainScreenState extends State<MainScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => ProductListScreen(
-                        cart: _cart,
-                        onCartUpdate: (updatedCart) => setState(() => _cart = updatedCart),
-                      ),
+                      builder: (_) =>
+                          ProductListScreen(
+                            cart: _cart,
+                            onCartUpdate: (updatedCart) =>
+                                setState(() => _cart = updatedCart),
+                          ),
                     ),
                   );
                 },
-                child: const Text('Выбор продуктов', style: TextStyle(fontSize: 18)),
-
+                child: const Text(
+                    'Выбор продуктов', style: TextStyle(fontSize: 18)),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -62,15 +67,11 @@ class _MainScreenState extends State<MainScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CartScreen(
-                        cart: _cart,
-                        onCartUpdate: (updatedCart) => setState(() => _cart = updatedCart),
-                      ),
+                      builder: (_) => CartContainer(initialCart: _cart),
                     ),
                   );
                 },
                 child: const Text('Корзина', style: TextStyle(fontSize: 18)),
-
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -81,8 +82,7 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 },
                 child: const Text('Отзыв', style: TextStyle(fontSize: 18)),
-
-              ),
+              )
             ],
           ),
         ),

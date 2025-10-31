@@ -18,9 +18,7 @@ class OrderHistoryScreen extends StatelessWidget {
         title: const Text('История заказов'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: onBackToCart != null
-              ? onBackToCart!
-              : () => Navigator.pop(context),
+          onPressed: () =>Navigator.pop(context),
         ),
       ),
       body: orders.isEmpty

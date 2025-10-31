@@ -14,7 +14,7 @@ class CartContainer extends StatefulWidget {
 }
 class _CartContainerState extends State<CartContainer> {
   late List<Product> _cart;
-  List<OrderRecord> _orderHistory = []
+  List<OrderRecord> _orderHistory = [];
   @override
   void initState() {
     super.initState();
@@ -43,6 +43,7 @@ class _CartContainerState extends State<CartContainer> {
       _cart = updatedCart;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return CartScreen(
