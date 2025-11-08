@@ -45,10 +45,6 @@ class _CartContainerState extends State<CartContainer> {
   @override
   Widget build(BuildContext context) {
     return CartScreen(
-      cart: _cart,
-      onPlaceOrder: _placeOrder,
-      onOpenOrderHistory: _openOrderHistory,
-      onCartUpdate: _updateCart,
     );
   }
 }

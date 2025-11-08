@@ -1,7 +1,7 @@
 // app_router.dart
 import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart';
 
+import 'features/cart/screens/cart_screen.dart';
 import 'features/cart/screens/order_history_screen.dart';
 import 'features/product_list/screens/product_list_screen.dart';
 import 'features/cart/state/сart_container.dart';
@@ -21,22 +21,12 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/products',
       name: 'products',
-      builder: (context, state) {
-        final cart = state.extra as List<Product>? ?? [];
-        return ProductListScreen(
-          cart: cart,
-          onCartUpdate: (updatedCart) {
-          },
-        );
-      },
+      builder: (context, state) => const ProductListScreen(),
     ),
     GoRoute(
       path: '/cart',
       name: 'cart',
-      builder: (context, state) {
-        final cart = state.extra as List<Product>? ?? [];
-        return CartContainer(initialCart: cart);
-      },
+      builder: (context, state) => const CartScreen(),
     ),
     GoRoute(
       path: '/reviews',
