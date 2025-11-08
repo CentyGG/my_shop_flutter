@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
-import 'AppState.dart';
+import 'package:get_it/get_it.dart';
+import 'package:my_shop_flutter/services/cart_service.dart';
+import 'package:my_shop_flutter/utils/price_formatter.dart';
 import 'app_router.dart';
-import 'features/models/product.dart';
+import 'di.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatefulWidget {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  getDI();
+  GetIt.I.allowReassignment = true;
+  runApp(const MyApp());
+}
+void getDI(){
+  GetIt.I.registerSingleton<CartService>(CartService());
+  getIt.registerFactory<PriceFormatter>(() => PriceFormatter());
+}
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-class _MyAppState extends State<MyApp> {
-  late List<Product> _cart;
-  @override
-  void initState() {
-    super.initState();
-    _cart = [];
-  }
-  void _updateCart(List<Product> newCart) {
-    setState(() {
-      _cart = newCart;
-    });
-  }
-  @override
   Widget build(BuildContext context) {
-    return AppState(
-      cart: _cart,
-      onCartUpdate: _updateCart,
-      child: MaterialApp.router(
-        routerConfig: router,
-        title: 'Магазин',
-        theme: ThemeData(useMaterial3: true),
-      ),
+    return MaterialApp.router(
+      routerConfig: router,
+      title: 'Магазин',
+      theme: ThemeData(useMaterial3: true),
     );
   }
 }
