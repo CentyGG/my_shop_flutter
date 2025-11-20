@@ -8,6 +8,7 @@ import 'features/profile/screens/profile_screen.dart';
 import 'features/reviews/screens/reviews_screen.dart';
 import 'features/reviews/screens/add_review_screen.dart';
 import 'features/main_screen/main_menu_screen.dart';
+import 'features/settings/screens/settings_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -51,6 +52,11 @@ final GoRouter router = GoRouter(
       path: '/profile/change',
       name: 'change_profile',
       builder: (context, state) => const ChangeProfileDataScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
+      name: 'settings',
+      builder: (context, state) => const SettingsScreen(),
     ),
   ],
 );
