@@ -38,7 +38,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/cart/order_history',
       name: 'order_history',
-      builder: (context, state) => const OrderHistoryScreen(orders: [],),
+      builder: (context, state) => const OrderHistoryScreen(),
     ),
   ],
 );

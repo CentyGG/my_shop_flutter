@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import '../state/сart_container.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../state/order_state.dart';
 
+class OrderHistoryScreen extends ConsumerWidget {
+  const OrderHistoryScreen({super.key});
 
-class OrderHistoryScreen extends StatelessWidget {
-  final List<OrderRecord> orders;
-  final VoidCallback? onBackToCart;
-
-  const OrderHistoryScreen({
-    super.key,
-    required this.orders,
-    this.onBackToCart,
-  });
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final orders = ref.watch(orderHistoryProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('История заказов'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () =>Navigator.pop(context),
+          onPressed: () => context.pushReplacementNamed('cart'),
         ),
       ),
       body: orders.isEmpty
@@ -33,12 +30,6 @@ class OrderHistoryScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: onBackToCart != null
-          ? FloatingActionButton(
-        onPressed: onBackToCart,
-        child: const Icon(Icons.shopping_cart),
-      )
-          : null,
     );
   }
 }

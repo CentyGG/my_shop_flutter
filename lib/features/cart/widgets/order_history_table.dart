@@ -1,7 +1,8 @@
 // lib/features/cart/widgets/order_history_table.dart
 import 'package:flutter/material.dart';
 
-import '../state/сart_container.dart';
+import '../../models/order_record.dart';
+
 
 class OrderHistoryTable extends StatelessWidget {
   final List<OrderRecord> orders;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/cart_item_widget.dart';
 import '../../models/product.dart';
 import '../state/cart_state.dart';
+import '../state/order_state.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -19,7 +21,7 @@ class CartScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) { // Добавлен WidgetRef
+  Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartStateProvider);
     final total = cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
 
@@ -28,8 +30,14 @@ class CartScreen extends ConsumerWidget {
         title: const Text('Корзина'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pushNamed('main'),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () => context.pushNamed('order_history'),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -80,14 +88,22 @@ class CartScreen extends ConsumerWidget {
             if (cartItems.isNotEmpty)
               ElevatedButton(
                 onPressed: () {
+                  final order = ref.read(orderHistoryProvider.notifier).createOrderFromCart(cartItems);
+                  final currentHistory = ref.read(orderHistoryProvider);
+                  ref.read(orderHistoryProvider.notifier).addOrder(currentHistory, order);
                   ref.read(cartStateProvider.notifier).clearCart();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Заказ оформлен!')),
                   );
-                  Navigator.pop(context);
                 },
                 child: const Text('Оформить заказ'),
               ),
+            const SizedBox(height: 16),
+            // Кнопка "История заказов" — ВСЕГДА видна
+            OutlinedButton(
+              onPressed: () => context.go('/cart/order_history'),
+              child: const Text('История заказов'),
+            ),
           ],
         ),
       ),
