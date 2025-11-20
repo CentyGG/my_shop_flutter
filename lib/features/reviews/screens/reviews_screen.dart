@@ -1,26 +1,16 @@
-// lib/features/reviews/screens/review_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import '../state/reviews_state.dart';
 import '../widgets/review_item_widget.dart';
 import 'add_review_screen.dart';
 
-class Review {
-  final int rating;
-  final String text;
-  const Review({required this.rating, required this.text});
-}
-
-class ReviewScreen extends StatelessWidget {
+class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    final initialReviews = [
-      Review(rating: 5, text: 'Хороший сервис!'),
-      Review(rating: 5, text: 'Мне нравится!'),
-    ];
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reviews = ref.watch(reviewsStateProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Отзывы'),
@@ -52,15 +42,19 @@ class ReviewScreen extends StatelessWidget {
           ),
           const Divider(),
           Expanded(
-            child: ListView.builder(
+            child: reviews.isEmpty
+                ? const Center(child: Text('Пока нет отзывов'))
+                : ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              itemCount: initialReviews.length,
+              itemCount: reviews.length,
               itemBuilder: (context, index) {
-                final r = initialReviews[index];
+                final r = reviews[index];
                 return ReviewItemWidget(
                   rating: r.rating,
                   text: r.text,
-                  onDelete: () {},
+                  onDelete: () {
+                    ref.read(reviewsStateProvider.notifier).deleteReview(index);
+                  },
                 );
               },
             ),

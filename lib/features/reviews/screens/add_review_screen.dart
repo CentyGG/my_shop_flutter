@@ -1,27 +1,28 @@
-// lib/features/reviews/screens/add_review_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_flutter/features/reviews/screens/reviews_screen.dart';
 
-class AddReviewScreen extends StatefulWidget {
+import '../state/reviews_state.dart';
+
+class AddReviewScreen extends ConsumerWidget {
   const AddReviewScreen({super.key});
 
   @override
-  State<AddReviewScreen> createState() => _AddReviewScreenState();
-}
-
-class _AddReviewScreenState extends State<AddReviewScreen> {
-  int? _selectedRating;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController _textController = TextEditingController();
+    int? _selectedRating;
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false,title: const Text('Новый отзыв')),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Новый отзыв'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
+              controller: _textController,
               maxLines: 4,
               decoration: const InputDecoration(
                 labelText: 'Ваш отзыв',
@@ -36,56 +37,32 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRating == 1 ? Colors.blue : null,
-                  ),
-                  onPressed: () {
-                    setState(() => _selectedRating = 1);
-                  },
-                  child: const Text('1'),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRating == 2 ? Colors.blue : null,
-                  ),
-                  onPressed: () {
-                    setState(() => _selectedRating = 2);
-                  },
-                  child: const Text('2'),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRating == 3 ? Colors.blue : null,
-                  ),
-                  onPressed: () {
-                    setState(() => _selectedRating = 3);
-                  },
-                  child: const Text('3'),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRating == 4 ? Colors.blue : null,
-                  ),
-                  onPressed: () {
-                    setState(() => _selectedRating = 4);
-                  },
-                  child: const Text('4'),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRating == 5 ? Colors.blue : null,
-                  ),
-                  onPressed: () {
-                    setState(() => _selectedRating = 5);
-                  },
-                  child: const Text('5'),
-                ),
+                _buildRatingButton(1, _selectedRating, () => _selectedRating = 1),
+                _buildRatingButton(2, _selectedRating, () => _selectedRating = 2),
+                _buildRatingButton(3, _selectedRating, () => _selectedRating = 3),
+                _buildRatingButton(4, _selectedRating, () => _selectedRating = 4),
+                _buildRatingButton(5, _selectedRating, () => _selectedRating = 5),
               ],
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
+                if (_selectedRating == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Выберите оценку!')),
+                  );
+                  return;
+                }
+
+                final text = _textController.text.trim();
+                if (text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Напишите отзыв или поставьте оценку!')),
+                  );
+                  return;
+                }
+                ref.read(reviewsStateProvider.notifier).addReview(_selectedRating!, text);
+                _textController.clear();
                 context.pushReplacementNamed("reviews");
               },
               child: const Text('Отправить отзыв'),
@@ -93,6 +70,16 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRatingButton(int value, int? selected, VoidCallback onPressed) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: selected == value ? Colors.blue : null,
+      ),
+      onPressed: onPressed,
+      child: Text('$value'),
     );
   }
 }
