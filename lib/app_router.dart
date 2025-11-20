@@ -1,13 +1,10 @@
 // app_router.dart
 import 'package:go_router/go_router.dart';
-
 import 'features/cart/screens/cart_screen.dart';
 import 'features/cart/screens/order_history_screen.dart';
 import 'features/product_list/screens/product_list_screen.dart';
-import 'features/cart/state/сart_container.dart';
 import 'features/reviews/screens/reviews_screen.dart';
 import 'features/reviews/screens/add_review_screen.dart';
-import 'features/models/product.dart';
 import 'features/main_screen/main_menu_screen.dart';
 
 final GoRouter router = GoRouter(
