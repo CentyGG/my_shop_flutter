@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../di.dart';
-import '../../../services/cart_service.dart';
-import '../../models/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/cart_item_widget.dart';
+import '../../models/product.dart';
+import '../state/cart_state.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
 
   String _getImageUrlForProduct(String productId) {
@@ -20,61 +19,44 @@ class CartScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    String cartText;
-    if (getIt.isRegistered<CartService>()) {
-      final cartService = getIt.get<CartService>();
-      final cart = cartService.cart;
-      final total = cart.fold(0.0, (sum, p) => sum + p.price);
-      cartText = 'Товаров в корзине: ${cart.length}, Итого: ${total.toStringAsFixed(2)} ₽';
-    } else {
-      print('Ошибка: CartService не зарегистрирован в GetIt!');
-      cartText = 'Ошибка: Корзина недоступна. Обратитесь к разработчику.';
-    }
-
-    // Группировка товаров по ID
-    final map = <String, _CartItem>{};
-    for (final product in getIt.isRegistered<CartService>() ? getIt.get<CartService>().cart : []) {
-      if (map.containsKey(product.id)) {
-        map[product.id]!.quantity++;
-      } else {
-        map[product.id] = _CartItem(product);
-      }
-    }
-    final items = map.values.toList();
-    final total = items.fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
+  Widget build(BuildContext context, WidgetRef ref) { // Добавлен WidgetRef
+    final cartItems = ref.watch(cartStateProvider);
+    final total = cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Корзина'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Column(
         children: [
-          // Выводим текст с информацией о корзине (с проверкой)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              cartText,
+              'Товаров в корзине: ${cartItems.length}, Итого: ${total.toStringAsFixed(2)} ₽',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
-            child: items.isEmpty
+            child: cartItems.isEmpty
                 ? const Center(child: Text('Корзина пуста'))
                 : ListView.builder(
-              itemCount: items.length,
+              itemCount: cartItems.length,
               itemBuilder: (context, index) {
-                final item = items[index];
+                final item = cartItems[index];
                 return CartItemWidget(
                   product: item.product,
                   quantity: item.quantity,
                   imageUrl: _getImageUrlForProduct(item.product.id),
-                  onIncrement: () => getIt.get<CartService>().addProduct(item.product),
-                  onDecrement: () => getIt.get<CartService>().removeProduct(item.product),
+                  onIncrement: () {
+                    ref.read(cartStateProvider.notifier).addProduct(item.product);
+                  },
+                  onDecrement: () {
+                    ref.read(cartStateProvider.notifier).removeProduct(item.product);
+                  },
                 );
               },
             ),
@@ -86,7 +68,7 @@ class CartScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (items.isNotEmpty)
+            if (cartItems.isNotEmpty)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -95,14 +77,14 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             const SizedBox(height: 16),
-            if (items.isNotEmpty)
+            if (cartItems.isNotEmpty)
               ElevatedButton(
                 onPressed: () {
-                  getIt.get<CartService>().clearCart();
+                  ref.read(cartStateProvider.notifier).clearCart();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Заказ оформлен!')),
                   );
-                  context.pop();
+                  Navigator.pop(context);
                 },
                 child: const Text('Оформить заказ'),
               ),
@@ -111,10 +93,4 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class _CartItem {
-  final Product product;
-  int quantity;
-  _CartItem(this.product) : quantity = 1;
 }

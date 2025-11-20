@@ -67,18 +67,12 @@ class CartItemWidget extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: onDecrement,
-                          ),
+                          ElevatedButton(onPressed: onDecrement, child: Text("-")),
                           Text(
                             '$quantity',
                             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: onIncrement,
-                          ),
+                          ElevatedButton(onPressed: onIncrement, child: Text("+"))
                         ],
                       ),
                     ],
