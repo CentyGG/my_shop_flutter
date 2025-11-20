@@ -33,6 +33,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 onPressed: () => context.pushNamed('reviews'),
                 child: const Text('Отзыв', style: TextStyle(fontSize: 18)),
               ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => context.pushNamed('profile'),
+                child: const Text('Профиль', style: TextStyle(fontSize: 18)),
+              ),
             ],
           ),
         ),
