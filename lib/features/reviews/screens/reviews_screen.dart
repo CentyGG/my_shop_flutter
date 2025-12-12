@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import '../state/reviews_state.dart';
 import '../widgets/review_item_widget.dart';
-import 'add_review_screen.dart';
 
 class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({super.key});
@@ -36,7 +35,7 @@ class ReviewScreen extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              context.pushReplacementNamed("add_review");
+              context.pushNamed("add_review");
             },
             child: const Text('Добавить отзыв'),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../state/profile_state.dart';
+import '../../auth/state/auth_state.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -78,10 +79,26 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 40),
 
-
             ElevatedButton(
               onPressed: () => context.pushNamed('change_profile'),
               child: const Text('Изменить данные'),
+            ),
+            const SizedBox(height: 32),
+            const Divider(),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              onPressed: () {
+                ref.read(authStateProvider.notifier).logout();
+                context.goNamed('login');
+              },
+              child: const Text(
+                'Выйти из аккаунта',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
           ],
         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_shop_flutter/features/reviews/screens/reviews_screen.dart';
-
 import '../state/reviews_state.dart';
 
 class AddReviewScreen extends ConsumerWidget {
@@ -63,7 +61,7 @@ class AddReviewScreen extends ConsumerWidget {
                 }
                 ref.read(reviewsStateProvider.notifier).addReview(_selectedRating!, text);
                 _textController.clear();
-                context.pushReplacementNamed("reviews");
+                context.pop();
               },
               child: const Text('Отправить отзыв'),
             ),

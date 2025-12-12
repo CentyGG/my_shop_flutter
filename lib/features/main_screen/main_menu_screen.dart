@@ -43,6 +43,16 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 onPressed: () => context.pushNamed('settings'),
                 child: const Text('Настройки', style: TextStyle(fontSize: 18)),
               ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => context.pushNamed('subscription'),
+                child: const Text('Подписка на доставку', style: TextStyle(fontSize: 18)),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => context.pushNamed('support'),
+                child: const Text('Поддержка', style: TextStyle(fontSize: 18)),
+              ),
             ],
           ),
         ),

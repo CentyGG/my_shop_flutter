@@ -32,11 +32,12 @@ class ProductListScreen extends ConsumerWidget {
   }
 
   void _toggleCart(WidgetRef ref, Product product) {
-    final cartItems = ref.read(cartStateProvider.notifier);
-    if (_isInCart(cartItems.state.map((item) => item.product).toList(), product.id)) {
-      cartItems.removeProduct(product);
+    final cartItems = ref.read(cartStateProvider);
+    final cartNotifier = ref.read(cartStateProvider.notifier);
+    if (_isInCart(cartItems.map((item) => item.product).toList(), product.id)) {
+      cartNotifier.removeProduct(product);
     } else {
-      cartItems.addProduct(product);
+      cartNotifier.addProduct(product);
     }
   }
 

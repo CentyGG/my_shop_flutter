@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/cart_item_widget.dart';
-import '../../models/product.dart';
 import '../state/cart_state.dart';
 import '../state/order_state.dart';
 
