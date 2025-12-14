@@ -22,7 +22,6 @@ class SecureStorageRepositoryImpl implements SecureStorageRepository {
       rethrow;
     }
   }
-
   @override
   Future<void> setAuthToken(String token) async {
     try {
