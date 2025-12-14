@@ -7,6 +7,8 @@ import 'ui/features/auth/state/auth_state.dart';
 import 'ui/features/cart/screens/cart_screen.dart';
 import 'ui/features/cart/screens/order_history_screen.dart';
 import 'ui/features/product_list/screens/product_list_screen.dart';
+import 'ui/features/food_products/screens/food_products_screen.dart';
+import 'ui/features/recipes/screens/recipes_screen.dart';
 import 'ui/features/profile/screens/change_profile_data_screen.dart';
 import 'ui/features/profile/screens/profile_screen.dart';
 import 'ui/features/reviews/screens/reviews_screen.dart';
@@ -57,7 +59,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/products',
         name: 'products',
-        builder: (context, state) => const ProductListScreen(),
+        builder: (context, state) => const FoodProductsScreen(),
+      ),
+      GoRoute(
+        path: '/recipes',
+        name: 'recipes',
+        builder: (context, state) => const RecipesScreen(),
       ),
       GoRoute(
         path: '/cart',

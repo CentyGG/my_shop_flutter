@@ -25,6 +25,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                onPressed: () => context.pushNamed('recipes'),
+                child: const Text('Рецепты', style: TextStyle(fontSize: 18)),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: () => context.pushNamed('cart'),
                 child: const Text('Корзина', style: TextStyle(fontSize: 18)),
               ),
