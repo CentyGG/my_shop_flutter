@@ -1,20 +1,20 @@
 // app_router.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'features/auth/screens/login_screen.dart';
-import 'features/auth/screens/register_screen.dart';
-import 'features/auth/state/auth_state.dart';
-import 'features/cart/screens/cart_screen.dart';
-import 'features/cart/screens/order_history_screen.dart';
-import 'features/product_list/screens/product_list_screen.dart';
-import 'features/profile/screens/change_profile_data_screen.dart';
-import 'features/profile/screens/profile_screen.dart';
-import 'features/reviews/screens/reviews_screen.dart';
-import 'features/reviews/screens/add_review_screen.dart';
-import 'features/main_screen/main_menu_screen.dart';
-import 'features/settings/screens/settings_screen.dart';
-import 'features/subscription/screens/subscription_screen.dart';
-import 'features/support/screens/support_screen.dart';
+import 'ui/features/auth/screens/login_screen.dart';
+import 'ui/features/auth/screens/register_screen.dart';
+import 'ui/features/auth/state/auth_state.dart';
+import 'ui/features/cart/screens/cart_screen.dart';
+import 'ui/features/cart/screens/order_history_screen.dart';
+import 'ui/features/product_list/screens/product_list_screen.dart';
+import 'ui/features/profile/screens/change_profile_data_screen.dart';
+import 'ui/features/profile/screens/profile_screen.dart';
+import 'ui/features/reviews/screens/reviews_screen.dart';
+import 'ui/features/reviews/screens/add_review_screen.dart';
+import 'ui/features/main_screen/main_menu_screen.dart';
+import 'ui/features/settings/screens/settings_screen.dart';
+import 'ui/features/subscription/screens/subscription_screen.dart';
+import 'ui/features/support/screens/support_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
